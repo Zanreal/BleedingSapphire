@@ -4,3 +4,4 @@ namespace BleedingSapphire
 	public interface IAttackable
 	{
 	}
+}
