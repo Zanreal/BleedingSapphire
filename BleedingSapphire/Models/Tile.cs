@@ -1,7 +1,10 @@
 ﻿using System;
 namespace BleedingSapphire
 {
-	public interface Itradeable
+	public class Tile
 	{
+		public Tile()
+		{
+		}
 	}
 }

@@ -51,7 +51,8 @@
     <Compile Include="Models\Diamand.cs" />
     <Compile Include="Models\Handler.cs" />
     <Compile Include="Models\IAttackable.cs" />
-    <Compile Include="Models\Itradeable.cs" />
+    <Compile Include="Models\ITradeable.cs" />
+    <Compile Include="Models\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
