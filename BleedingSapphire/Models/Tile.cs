@@ -1,8 +1,14 @@
 ﻿using System;
-namespace BleedingSapphire
+namespace BleedingSapphire.Models
 {
-	public class Tile
+    public class Tile
 	{
+        public bool Blocked
+        {
+            get;
+            set;
+        }
+
 		public Tile()
 		{
 		}

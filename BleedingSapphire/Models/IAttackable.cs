@@ -1,7 +1,9 @@
 ﻿using System;
-namespace BleedingSapphire
+namespace BleedingSapphire.Models
 {
-	public interface IAttackable
+    public interface IAttackable
 	{
+        int MaxHitPoints { get; }
+        int HitPoints { get; }
 	}
 }

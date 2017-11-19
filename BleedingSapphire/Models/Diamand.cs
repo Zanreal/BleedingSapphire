@@ -1,10 +1,11 @@
 ﻿using System;
-namespace BleedingSapphire
+namespace BleedingSapphire.Models
 {
-	public class Diamand : Item
+    internal class Diamand : Item
 	{
 		public Diamand()
 		{
+            Mass = 0.5f;
 		}
 	}
 }

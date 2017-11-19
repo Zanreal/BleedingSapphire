@@ -1,7 +1,7 @@
 ﻿using System;
-namespace BleedingSapphire
+namespace BleedingSapphire.Models
 {
-	public class Handler : Item, ITradeable
+    internal class Handler : Character, IInteractable
 	{
 		public Handler()
 		{

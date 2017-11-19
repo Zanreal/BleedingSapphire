@@ -3,44 +3,42 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 namespace BleedingSapphire
 {
-	public class Game1 : Game
-	{
-		public SceneComponent scene
+    public class Game1 : Game
+    {
+        GraphicsDeviceManager graphics;
+
+		public SceneComponent Scene{get;set;}
+
+		public InputComponent Input{get;set;}
+
+		public SimulationComponent Simulation
 		{
 			get;
 			set;
 		}
 
-		public InputComponent input
-		{
-			get;
-			set;
-		}
+        public Game1()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
 
-		public SimulationComponent simulation
-		{
-			get;
-			set;
-		}
+            Input = new InputComponent(this);
+			Input.UpdateOrder = 0;
+            Components.Add(Input);
 
-		public Game1()
-		{
-			Content.RootDirectory = "Content";
+			Simulation = new SimulationComponent(this);
+			Simulation.UpdateOrder = 1;
+			Components.Add(Simulation);
 
-			input = new InputComponent(this);
-			input.UpdateOrder = 0;
-			Components.Add(input);
-
-			simulation = new SimulationComponent(this);
-			simulation.UpdateOrder = 1;
-			Components.Add(simulation);
-
-			scene = new SceneComponent(this);
-			scene.UpdateOrder = 2;
-			Components.Add(scene);
+			Scene = new SceneComponent(this);
+			Scene.UpdateOrder = 2;
+            Scene.DrawOrder = 0;
+			Components.Add(Scene);
 		}
 	}
 }

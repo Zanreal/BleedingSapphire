@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BleedingSapphire
+namespace BleedingSapphire.Models
 {
-	public class World
+    public class World
 	{
-		public List<Area> areas
+		public List<Area> Areas
 		{
 			get;
 			set;
 		}
 
-		public List<Item> Items
+		public List<IAttackable> Items
 		{
 			get;
 			set;
@@ -19,8 +19,8 @@ namespace BleedingSapphire
 
 		public World()
 		{
-			areas = new List<Area>();
-			Items = new List<Item>();
+			Areas = new List<Area>();
+			Items = new List<IAttackable>();
 		}
 	}
 }

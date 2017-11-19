@@ -1,7 +1,7 @@
 ﻿using System;
-namespace BleedingSapphire
+namespace BleedingSapphire.Models
 {
-	public class Helper : Item
+    internal class Helper : Character
 	{
 		public Helper()
 		{

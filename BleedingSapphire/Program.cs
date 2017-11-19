@@ -20,11 +20,11 @@ namespace BleedingSapphire
 	static class Program
 #endif
 	{
-		private static Game1 game;
+        static Game1 game;
 
-		internal static void RunGame()
+		static void RunGame()
 		{
-			game = new Game1();
+            game = new Game1();
 			game.Run();
 #if !__IOS__ && !__TVOS__
 			game.Dispose();
