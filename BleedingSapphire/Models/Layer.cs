@@ -15,14 +15,16 @@ namespace BleedingSapphire.Models
             private set;
         }
 
-        public Tile[,] Tiles { get; private set; }
+        public int[,] Tiles { get; private set; }
+
+        public string Name { get; set; }
 
         public Layer(int width, int height)
         {
             this.Width = width;
             this.Height = height;
 
-            Tiles = new Tile[width, height];
+            Tiles = new int[width, height];
         }
     }
 }

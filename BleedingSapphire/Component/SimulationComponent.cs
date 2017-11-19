@@ -1,7 +1,10 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BleedingSapphire.Models;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace BleedingSapphire
 {
@@ -33,19 +36,21 @@ namespace BleedingSapphire
         {
             World = new World();
 
-            Area area = new Area(2,30,20);
+            //Area area = new Area(2,30,30);
+            Area area = LoadFromJson("town");
             World.Areas.Add(area);
-            for (int x = 0; x < area.Width; x++)
-            {
-                for (int y = 0; y < area.Height; y++)
-                {
-                    area.Layers[0].Tiles[x, y] = new Tile();
-                    area.Layers[1].Tiles[x, y] = new Tile();
 
-                    if (x == 0 || y == 0 || x == area.Width - 1 || y == area.Height - 1)
-                        area.Layers[0].Tiles[x, y].Blocked = true;
-                }
-            }
+            //for (int x = 0; x < area.Width; x++)
+            //{
+            //    for (int y = 0; y < area.Height; y++)
+            //    {
+            //        area.Layers[0].Tiles[x, y] = 1;
+            //        area.Layers[1].Tiles[x, y] = 0;
+
+            //        if (x == 0 || y == 0 || x == area.Width - 1 || y == area.Height - 1)
+            //            area.Layers[1].Tiles[x, y] = 2;
+            //    }
+            //}
 
             Player = new Player() { Position = new Vector2(15, 10), Radius = 0.25f };
             area.Items.Add(Player);
@@ -191,5 +196,140 @@ namespace BleedingSapphire
 
             base.Update(gameTime);
 		}
-	}
+
+        private Area LoadFromJson(string name)
+        {
+            string rootPath = Path.Combine(Environment.CurrentDirectory, "Maps");
+            using (Stream stream = File.OpenRead(rootPath + "//" + name + ".json"))
+            {
+                using (StreamReader sr = new StreamReader(stream))
+                {
+                    string json = sr.ReadToEnd();
+
+                    FileArea result = JsonConvert.DeserializeObject<FileArea>(json);
+
+                    Area area = new Area(result.layers.Length, result.width, result.height);
+                    area.Name = name;
+
+                    area.Background = new Color(128, 128, 128);
+                    if(!string.IsNullOrEmpty(result.backgroundcolor))
+                    {
+                        area.Background = new Color(
+                            Convert.ToInt32(result.backgroundcolor.Substring(1, 2), 16),
+                            Convert.ToInt32(result.backgroundcolor.Substring(3, 2), 16),
+                            Convert.ToInt32(result.backgroundcolor.Substring(5, 2), 16)
+                        );
+                    }
+
+                    for (int i = 0; i < result.tilesets.Length; i++)
+                    {
+                        FileTileset tileset = result.tilesets[i];
+
+                        int start = tileset.firstgid;
+                        int perRow = tileset.imagewidth / tileset.tilewidth;
+                        int width = tileset.tilewidth;
+
+                        for (int j = 0; j < tileset.tilecount; j++)
+                        {
+                            int x = j % perRow;
+                            int y = j / perRow;
+
+                            bool block = false;
+                            if(tileset.tileproperties != null)
+                            {
+                                FileTileProperty property;
+                                if (tileset.tileproperties.TryGetValue(j, out property))
+                                    block = property.Block;
+                            }
+
+                            Tile tile = new Tile()
+                            {
+                                Texture = tileset.image,
+                                SourceRectangle = new Rectangle(x * width, y * width, width, width),
+                                Blocked = block
+                            };
+
+                            area.Tiles.Add(start + j, tile);
+                        }
+                    }
+
+                    for (int l = 0; l < result.layers.Length; l++)
+                    {
+                        FileLayer layer = result.layers[l];
+
+                        area.Layers[l].Name = layer.name;
+
+                        for (int i = 0; i < layer.data.Length; i++)
+                        {
+                            int x = i % area.Width;
+                            int y = i / area.Height;
+                            area.Layers[l].Tiles[x, y] = layer.data[i];
+                        }
+                    }
+
+                    return area;
+                }
+            }
+        }
+
+        private class FileArea
+        {
+            public string backgroundcolor
+            {
+                get;
+                set;
+            }
+
+            public int width
+            {
+                get;
+                set;
+            }
+
+            public int height
+            {
+                get;
+                set;
+            }
+
+            public FileLayer[] layers
+            {
+                get;
+                set;
+            }
+
+            public FileTileset[] tilesets
+            {
+                get;
+                set;
+            }
+        }
+
+        private class FileLayer
+        {
+            public int[] data { get; set; }
+            public string name { get; set; }
+        }
+
+        private class FileTileset
+        {
+            public int firstgid { get; set; }
+
+            public string image { get; set; }
+
+            public int tilewidth { get; set; }
+
+            public int imagewidth { get; set; }
+
+			public int tilecount { get; set; }
+
+            public Dictionary<int, FileTileProperty> tileproperties { get; set; }
+        }
+
+        private class FileTileProperty
+        {
+            public bool Block { get; set; }
+        }
+    }
 }
+

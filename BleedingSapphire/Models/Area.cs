@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BleedingSapphire.Models;
+using Microsoft.Xna.Framework;
 
 namespace BleedingSapphire
 {
@@ -30,6 +31,20 @@ namespace BleedingSapphire
             private set;
         }
 
+        public Color Background
+        {
+            get;
+            set;
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public Dictionary<int, Tile> Tiles { get; set; }
+
 		public Area(int layers, int width, int height)
 		{
             this.Width = width;
@@ -42,6 +57,10 @@ namespace BleedingSapphire
             }
 
             Items = new List<Item>();
+
+            Tiles = new Dictionary<int, Tile>();
+            //Tiles.Add(1, new Tile() { Blocked = false, SourceRectangle = new Rectangle(448, 128, 32, 32)});
+            //Tiles.Add(2, new Tile() { Blocked = true, SourceRectangle = new Rectangle(384, 384, 32, 32)});
         }
 
         public bool IsCellBlocked(int x, int y)
@@ -52,7 +71,13 @@ namespace BleedingSapphire
 
             for (int l = 0; l < Layers.Length; l++)
             {
-                if (Layers[l].Tiles[x, y].Blocked)
+                int tileId = Layers[l].Tiles[x, y];
+                if (tileId == 0)
+                    continue;
+
+                Tile tile = Tiles[tileId];
+
+                if (tile.Blocked)
                     return true;
             }
             return false;

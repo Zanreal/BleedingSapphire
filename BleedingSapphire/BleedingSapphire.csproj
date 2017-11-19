@@ -35,6 +35,9 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\..\..\..\..\Library\Frameworks\MonoGame.framework\v3.7.0.1070\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="Models\Layer.cs" />
     <Compile Include="Models\ICollidable.cs" />
     <Compile Include="Models\IAttacker.cs" />
+    <Compile Include="Component\HudComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -69,6 +73,29 @@
     <None Include="x86\libSDL2-2.0.so.0" />
     <None Include="x86\libopenal.so.1" />
     <None Include="x86\soft_oal.dll" />
+    <None Include="Content\HudFont.spritefont" />
+    <None Include="Content\HudFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\landscape.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\town.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\shop.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\town.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\trees_plants_rocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maps\wood.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
@@ -76,6 +103,7 @@
   <ItemGroup>
     <Folder Include="Component\" />
     <Folder Include="Models\" />
+    <Folder Include="Maps\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

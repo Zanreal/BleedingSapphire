@@ -16,11 +16,9 @@ namespace BleedingSapphire
 
 		public InputComponent Input{get;set;}
 
-		public SimulationComponent Simulation
-		{
-			get;
-			set;
-		}
+		public SimulationComponent Simulation{ get; set; }
+
+        public HudComponent Hud { get; set; }
 
         public Game1()
         {
@@ -39,6 +37,11 @@ namespace BleedingSapphire
 			Scene.UpdateOrder = 2;
             Scene.DrawOrder = 0;
 			Components.Add(Scene);
+
+            Hud = new HudComponent(this);
+            Hud.UpdateOrder = 3;
+            Hud.DrawOrder = 1;
+            Components.Add(Hud);
 		}
 	}
 }
